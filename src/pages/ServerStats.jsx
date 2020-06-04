@@ -36,8 +36,11 @@ class ServerStats extends React.Component {
   }
 
   updateCpuChart() {
-    this.cpuChart.data.labels = this.state.allCPUInfo.map((info, index) => index * 3);
+    let time = new Date();
+    this.cpuChart.data.labels = [...this.cpuChart.data.labels, time.getMinutes()+":"+time.getSeconds()];
     this.cpuChart.data.datasets[0].data = this.state.allCPUInfo.map(info => info.min1);
+    this.cpuChart.data.datasets[1].data = this.state.allCPUInfo.map(info => info.min5);
+    this.cpuChart.data.datasets[2].data = this.state.allCPUInfo.map(info => info.min15);
     this.cpuChart.update();
   }
 
@@ -47,32 +50,32 @@ class ServerStats extends React.Component {
   }
 
   drawChart() {
-    var ctx = document.getElementById('cpuLoadChart').getContext('2d');
-    this.cpuChart = new Chart(ctx, {
+    var cpuCtx = document.getElementById('cpuLoadChart').getContext('2d');
+    this.cpuChart = new Chart(cpuCtx, {
       type: 'line',
       data: {
-        labels: this.state.allCPUInfo.map((info, index) => (index * 3) + " seconds"),
+        labels: ["0:00"],
         datasets: [{
-          label: 'CPU Load',
+          label: 'CPU 1-Min',
           data: this.state.allCPUInfo.map(info => info.min1),
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
+          backgroundColor: 'rgba(255, 100, 130, 0.3)',
+          borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 1
-        }]
+        },
+          {
+            label: 'CPU 5-Min',
+            data: this.state.allCPUInfo.map(info => info.min5),
+            backgroundColor: 'rgba(33, 59, 231, 0.3)',
+            borderColor: 'rgba(33, 59, 231, 1)',
+            borderWidth: 1
+          },
+          {
+            label: 'CPU 15-Min',
+            data: this.state.allCPUInfo.map(info => info.min15),
+            backgroundColor: 'rgba(45, 194, 191, 0.3)',
+            borderColor: 'rgba(45, 194, 191, 1)',
+            borderWidth: 1
+          }]
       },
       options: {
         scales: {
@@ -85,10 +88,8 @@ class ServerStats extends React.Component {
       }
     });
 
-
-
-    var ctx = document.getElementById('ramChart').getContext('2d');
-    this.ramChart = new Chart(ctx, {
+    var ramCtx = document.getElementById('ramChart').getContext('2d');
+    this.ramChart = new Chart(ramCtx, {
       type: 'doughnut',
       data: {
         labels: ["Used", "Free", "Buffer"],
@@ -96,20 +97,14 @@ class ServerStats extends React.Component {
           label: "RAM Useage",
           data: [Object.values(this.state.ramData)],
           backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
+            'rgba(250, 20, 23, 0.3)',
+            'rgba(3, 200, 52, 0.3)',
+            'rgba(230, 215, 75, 0.3)'
           ],
           borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
+            'rgba(250, 20, 23, 1)',
+            'rgba(3, 200, 52, 1)',
+            'rgba(230, 215, 75, 1)'
           ],
           borderWidth: 1
         }]
