@@ -50,7 +50,6 @@ class ServerUptimeCard extends React.Component {
                                 </Timer>
                             </h1>
                         </IonText>
-
                     ) : (
                             <h2> Loading... </h2>
                         )
