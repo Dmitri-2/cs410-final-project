@@ -37,7 +37,7 @@ class ServerStats extends React.Component {
 
   updateCpuChart() {
     let time = new Date();
-    this.cpuChart.data.labels = [...this.cpuChart.data.labels, time.getMinutes()+":"+time.getSeconds()];
+    this.cpuChart.data.labels = [...this.cpuChart.data.labels, time.getMinutes() + ":" + time.getSeconds()];
     this.cpuChart.data.datasets[0].data = this.state.allCPUInfo.map(info => info.min1);
     this.cpuChart.data.datasets[1].data = this.state.allCPUInfo.map(info => info.min5);
     this.cpuChart.data.datasets[2].data = this.state.allCPUInfo.map(info => info.min15);
@@ -56,26 +56,26 @@ class ServerStats extends React.Component {
       data: {
         labels: ["0:00"],
         datasets: [{
-          label: 'CPU 1-Min',
+          label: '1-Min Avg',
           data: this.state.allCPUInfo.map(info => info.min1),
           backgroundColor: 'rgba(255, 100, 130, 0.3)',
           borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 1
         },
-          {
-            label: 'CPU 5-Min',
-            data: this.state.allCPUInfo.map(info => info.min5),
-            backgroundColor: 'rgba(33, 59, 231, 0.3)',
-            borderColor: 'rgba(33, 59, 231, 1)',
-            borderWidth: 1
-          },
-          {
-            label: 'CPU 15-Min',
-            data: this.state.allCPUInfo.map(info => info.min15),
-            backgroundColor: 'rgba(45, 194, 191, 0.3)',
-            borderColor: 'rgba(45, 194, 191, 1)',
-            borderWidth: 1
-          }]
+        {
+          label: '5-Min Avg',
+          data: this.state.allCPUInfo.map(info => info.min5),
+          backgroundColor: 'rgba(33, 59, 231, 0.3)',
+          borderColor: 'rgba(33, 59, 231, 1)',
+          borderWidth: 1
+        },
+        {
+          label: '15-Min Avg',
+          data: this.state.allCPUInfo.map(info => info.min15),
+          backgroundColor: 'rgba(45, 194, 191, 0.3)',
+          borderColor: 'rgba(45, 194, 191, 1)',
+          borderWidth: 1
+        }]
       },
       options: {
         scales: {

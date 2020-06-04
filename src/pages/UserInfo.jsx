@@ -144,7 +144,7 @@ class UserInfo extends React.Component {
           </IonRow>
 
           <IonRow className="ion-justify-content-center">
-            <IonCol sizeMd="8" size="12">
+            <IonCol size="12">
               <IonCard>
                 <IonCardHeader>
                   <IonCardTitle className="ion-text-center"> <h2>All Application Users</h2></IonCardTitle>

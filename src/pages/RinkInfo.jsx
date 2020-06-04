@@ -19,7 +19,7 @@ class RinkInfo extends React.Component {
 
   componentDidMount() {
     this.getAllRinks();
-    this.drawChart();
+    this.drawCharts();
   }
 
   getAllRinks = async () => {
@@ -33,12 +33,13 @@ class RinkInfo extends React.Component {
     this.membersChart.data.labels = this.state.allRinks.map((rink) => rink.name);
     this.membersChart.data.datasets[0].data = this.state.allRinks.map((rink) => rink.members_count);
     this.membersChart.update();
-    // this.updateCpuChart();
-    // this.updateChartWithUserEmailVerifiedDataSet();
-    // this.updateUserTypeChart();
+
+    this.rinkMusicChart.data.labels = this.state.allRinks.map((rink) => rink.name);
+    this.rinkMusicChart.data.datasets[0].data = this.state.allRinks.map((rink) => rink.queued_music.length);
+    this.rinkMusicChart.update();
   }
 
-  drawChart() {
+  drawCharts() {
     var ctx = document.getElementById('rinkMembersChart').getContext('2d');
     this.membersChart = new Chart(ctx, {
       type: 'bar',
@@ -47,22 +48,31 @@ class RinkInfo extends React.Component {
         datasets: [{
           label: 'Members',
           data: this.state.allRinks.map((rink) => rink.members_count),
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
+          backgroundColor:'rgba(33, 59, 231, 0.3)',
+          borderColor: 'rgba(33, 59, 231, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+    var ctx = document.getElementById('rinkMusicChart').getContext('2d');
+    this.rinkMusicChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: this.state.allRinks.map((rink) => rink.name),
+        datasets: [{
+          label: 'Music',
+          data: this.state.allRinks.map((rink) => rink.members_count),
+          backgroundColor: "rgba(45, 194, 191, 0.3)",
+          borderColor: "rgba(45, 194, 191, 1)",
           borderWidth: 1
         }]
       },
@@ -96,22 +106,36 @@ class RinkInfo extends React.Component {
               <IonTitle size="large">{this.props.name}</IonTitle>
             </IonToolbar>
           </IonHeader>
-          <IonCard>
-            <IonCardHeader>
-              <IonCardTitle className="ion-text-center"> <h2>All Rinks</h2></IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonRow>
-                <IonCol>
+          <IonRow>
+            <IonCol sizeMd="6" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2>All Rinks</h2></IonCardTitle>
+                </IonCardHeader>
+                <IonCardContent>
+
                   <canvas id="rinkMembersChart" width="500" height="200"></canvas>
-                </IonCol>
-              </IonRow>
-            </IonCardContent>
-          </IonCard>
+
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol sizeMd="6" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2>Queued Music Per Rink </h2></IonCardTitle>
+                </IonCardHeader>
+                <IonCardContent>
+
+                  <canvas id="rinkMusicChart" width="500" height="200"></canvas>
+
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
 
           <IonCard>
             <IonCardHeader>
-              <IonCardTitle className="ion-text-center"> <h2>All Rinks</h2></IonCardTitle>
+              <IonCardTitle className="ion-text-center"> <h2>Rink Member Count</h2></IonCardTitle>
             </IonCardHeader>
             <IonCardContent>
               <IonRow style={{ borderBottom: "groove" }} >
