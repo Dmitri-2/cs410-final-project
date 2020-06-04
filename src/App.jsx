@@ -5,6 +5,7 @@ import ServerStats from './pages/ServerStats.jsx';
 import UserInfo from './pages/UserInfo.jsx';
 import AboutPage from './pages/AboutPage';
 import LoginPage from './pages/LoginPage';
+import MusicInfo from './pages/MusicInfo.jsx';
 import React from 'react';
 import { IonApp, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
@@ -110,6 +111,7 @@ class App extends React.Component {
                 <Route path="/server/info" render={props => (<ServerStats authToken={this.state.userToken} apiRoot={this.state.apiRoot} />)} exact />
                 <Route path="/users/stats" render={props => (<UserInfo authToken={this.state.userToken} apiRoot={this.state.apiRoot} />)} exact />
                 <Route path="/rinks/stats" render={props => (<RinkInfo authToken={this.state.userToken} apiRoot={this.state.apiRoot} />)} exact />
+                <Route path="/music/stats" render={props => (<MusicInfo authToken={this.state.userToken} apiRoot={this.state.apiRoot} />)} exact />
                 <Route path="/about" render={props => (<AboutPage authToken={this.state.userToken} apiRoot={this.state.apiRoot} />)} exact />
                 <Redirect from="/" to="/server/info" exact />
               </IonRouterOutlet>

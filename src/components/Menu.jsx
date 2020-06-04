@@ -15,7 +15,7 @@ import {
 import React from 'react';
 import { withRouter } from "react-router";
 import PropTypes from "prop-types";
-import { informationCircleOutline, statsChartOutline, archiveOutline, archiveSharp, bookmarkOutline, heartOutline, heartSharp, analyticsOutline, mailSharp, paperPlaneOutline, peopleOutline, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { informationCircleOutline, statsChartOutline, musicalNotesOutline, archiveOutline, archiveSharp, bookmarkOutline, heartOutline, heartSharp, analyticsOutline, mailSharp, paperPlaneOutline, peopleOutline, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
 import './Menu.css';
 
 
@@ -37,6 +37,12 @@ const appPages = [
     url: '/rinks/stats',
     iosIcon: statsChartOutline,
     mdIcon: statsChartOutline
+  },
+  {
+    title: 'Music Statistics',
+    url: '/music/stats',
+    iosIcon: musicalNotesOutline,
+    mdIcon: musicalNotesOutline
   },
   {
     title: 'About',

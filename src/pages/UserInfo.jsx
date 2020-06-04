@@ -157,26 +157,29 @@ class UserInfo extends React.Component {
             </IonCol>
           </IonRow>
 
-          <IonCard>
-            <IonCardHeader>
-              <IonCardTitle className="ion-text-center"> <h2>All Application Users</h2></IonCardTitle>
-            </IonCardHeader>
+          <IonRow className="ion-justify-content-center">
+            <IonCol sizeMd="8" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2>All Application Users</h2></IonCardTitle>
+                </IonCardHeader>
 
-            <IonCardContent style={{ overflow: "scroll" }}>
-              <IonRow className="ion-justify-content-center">
-                <IonCol>
+                <IonCardContent style={{ overflow: "scroll" }}>
+
                   <table style={{ margin: "auto" }}>
-                    <tr>
-                      <th> <IonLabel color="primary"> Id </IonLabel> </th>
-                      <th> <IonLabel color="primary"> Name </IonLabel> </th>
-                      <th> <IonLabel color="primary"> Email </IonLabel> </th>
-                      <th> <IonLabel color="primary"> Email Verified</IonLabel> </th>
-                      <th> <IonLabel color="primary"> Type </IonLabel> </th>
-                      <th> <IonLabel color="primary"> View </IonLabel> </th>
-                    </tr>
+                    <thead>
+                      <tr>
+                        <th> <IonLabel color="primary"> Id </IonLabel> </th>
+                        <th> <IonLabel color="primary"> Name </IonLabel> </th>
+                        <th> <IonLabel color="primary"> Email </IonLabel> </th>
+                        <th> <IonLabel color="primary"> Email Verified</IonLabel> </th>
+                        <th> <IonLabel color="primary"> Type </IonLabel> </th>
+                        <th> <IonLabel color="primary"> View </IonLabel> </th>
+                      </tr>
+                    </thead>
                     <tbody>
                       {this.state.allUsers.map(user => (
-                        <tr>
+                        <tr key={user.id}>
                           <td><IonLabel color="dark"> {user.id} </IonLabel> </td>
                           <td><IonLabel color="dark"> {user.name} </IonLabel> </td>
                           <td><IonLabel color="dark"> {user.email} </IonLabel> </td>
@@ -191,10 +194,11 @@ class UserInfo extends React.Component {
                       ))}
                     </tbody>
                   </table>
-                </IonCol>
-              </IonRow>
-            </IonCardContent>
-          </IonCard>
+
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
           <IonModal isOpen={this.state.userModalOpen} cssClass='my-custom-class'>
             {this.state.selectedUser == null ? (
               <h2>
