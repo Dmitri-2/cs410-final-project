@@ -2,15 +2,12 @@ import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, Io
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton, IonText } from '@ionic/react';
 import React from 'react';
 import { useParams } from 'react-router';
-import ExploreContainer from '../components/ExploreContainer';
 import './Page.css';
 import { IonGrid, IonRow, IonCol } from '@ionic/react';
 import axios from "axios";
 import Chart from 'chart.js';
 
 
-import SampleCard from "../components/SampleCard"
-import ServerRamCard from "../components/ServerRamCard.jsx"
 import ServerUptimeCard from "../components/ServerUptimeCard.jsx"
 
 
@@ -39,11 +36,9 @@ class ServerStats extends React.Component {
   }
 
   updateCpuChart() {
-    console.log(this.cpuChart.data.datasets[0].data);
     this.cpuChart.data.labels = this.state.allCPUInfo.map((info, index) => index * 3);
     this.cpuChart.data.datasets[0].data = this.state.allCPUInfo.map(info => info.min1);
     this.cpuChart.update();
-    // console.log(this.state.allCPUInfo.map(info => info.min1));
   }
 
   updateRamChart() {
@@ -130,6 +125,9 @@ class ServerStats extends React.Component {
     ).then(result => {
       this.setState({ latestCPUInfo: result.data }) //Gets min1, min5, min15
       this.setState({ allCPUInfo: [...this.state.allCPUInfo, result.data] })
+      if (this.state.allCPUInfo.length >= 50) {
+        this.state.allCPUInfo.splice(0, 1);
+      }
     })
     this.updateCpuChart();
   }
@@ -175,42 +173,41 @@ class ServerStats extends React.Component {
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle className="ion-text-center">1-Minute Load Average</IonCardTitle>
-                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? Number(this.state.latestCPUInfo.min1).toFixed(3) + "%" : "N/A"}</h1></IonTitle>
+                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? (Number(this.state.latestCPUInfo.min1) * 100.0).toFixed(3) + "%" : "N/A"}</h1></IonTitle>
               </IonCardHeader>
             </IonCard>
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle className="ion-text-center">5-Minute Load Average</IonCardTitle>
-                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? Number(this.state.latestCPUInfo.min5).toFixed(3) + "%" : "N/A"}</h1></IonTitle>
+                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? (Number(this.state.latestCPUInfo.min5) * 100.0).toFixed(3) + "%" : "N/A"}</h1></IonTitle>
               </IonCardHeader>
             </IonCard>
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle className="ion-text-center">15-Minute Load Average</IonCardTitle>
-                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? Number(this.state.latestCPUInfo.min15).toFixed(3) + "%" : "N/A"}</h1></IonTitle>
+                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? (Number(this.state.latestCPUInfo.min15) * 100.0).toFixed(3) + "%" : "N/A"}</h1></IonTitle>
               </IonCardHeader>
             </IonCard>
           </IonRow>
           <IonRow>
-            <IonCol size="6">
+            <IonCol sizeMd="6" size="12">
               <IonCard>
                 <IonCardHeader class="ion-text-center" color="medium">
                   <IonText>
                     <h1> Server RAM Useage </h1>
                   </IonText>
                 </IonCardHeader>
-                <canvas id="ramChart" width="400" height="400"></canvas>
+                <canvas id="ramChart" width="300" height="300"></canvas>
               </IonCard >
             </IonCol>
-            <IonCol size="6">
+            <IonCol sizeMd="6" size="12">
               <IonCard>
                 <IonCardHeader class="ion-text-center" color="medium">
                   <IonText>
-                    <h1> Server RAM Useage </h1>
+                    <h1>  Live CPU Load </h1>
                   </IonText>
                 </IonCardHeader>
-                <canvas id="cpuLoadChart" width="400" height="400"></canvas>
-
+                <canvas id="cpuLoadChart" width="300" height="300"></canvas>
               </IonCard >
             </IonCol>
           </IonRow>
