@@ -82,27 +82,84 @@ class MusicInfo extends React.Component {
               <IonTitle size="large">{this.props.name}</IonTitle>
             </IonToolbar>
           </IonHeader>
-          <IonCard>
-            <IonCardHeader>
-              <IonCardTitle className="ion-text-center"> <h2>Music Types</h2></IonCardTitle>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonRow>
-                <IonCol>
-                  <canvas id="musicChart" width="500" height="200"></canvas>
-                </IonCol>
-              </IonRow>
-            </IonCardContent>
-          </IonCard>
+          <IonRow>
+            <IonCol sizeMd="6" sizeLg="3" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2>Total Music</h2></IonCardTitle>
+                  <IonCardSubtitle className="ion-text-center"> Total Number of Music Uploaded </IonCardSubtitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonTitle className="ion-text-center">
+                    <h1 className="font-50"> {this.state.allMusic.length} </h1>
+                  </IonTitle>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol sizeMd="6" sizeLg="3" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2>Short Program  </h2></IonCardTitle>
+                  <IonCardSubtitle className="ion-text-center"> Short Program Music </IonCardSubtitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonTitle className="ion-text-center">
+                    <h1 className="font-50"> {this.state.allMusic.filter((music) => music.type === "short").length} </h1>
+                  </IonTitle>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol sizeMd="6" sizeLg="3" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2>Freeskate Music </h2></IonCardTitle>
+                  <IonCardSubtitle className="ion-text-center"> Long Program Music </IonCardSubtitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonTitle className="ion-text-center">
+                    <h1 className="font-50"> {this.state.allMusic.filter((music) => music.type === "long").length} </h1>
+                  </IonTitle>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol sizeMd="6" sizeLg="3" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2> Dance Music </h2></IonCardTitle>
+                  <IonCardSubtitle className="ion-text-center"> Dance Program Music </IonCardSubtitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonTitle className="ion-text-center">
+                    <h1 className="font-50"> {this.state.allMusic.filter((music) => music.type === "dance").length} </h1>
+                  </IonTitle>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
+
+          <IonRow>
+            <IonCol>
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2>Music Types</h2></IonCardTitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonRow>
+                    <IonCol>
+                      <canvas id="musicChart" width="500" height="200"></canvas>
+                    </IonCol>
+                  </IonRow>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
           <IonRow className="ion-justify-content-center">
-            <IonCol sizeMd="8" size="12">
+            <IonCol size="12">
               <IonCard>
                 <IonCardHeader>
                   <IonCardTitle className="ion-text-center"> <h2>All Music Stored</h2></IonCardTitle>
                 </IonCardHeader>
-
                 <IonCardContent style={{ overflow: "scroll" }}>
-
                   <table style={{ margin: "auto" }}>
                     <thead>
                       <tr>
@@ -110,6 +167,8 @@ class MusicInfo extends React.Component {
                         <th> <IonLabel color="primary"> Title </IonLabel> </th>
                         <th> <IonLabel color="primary"> Type </IonLabel> </th>
                         <th> <IonLabel color="primary"> Owner</IonLabel> </th>
+                        <th> <IonLabel color="primary"> Date Updated</IonLabel> </th>
+                        <th> <IonLabel color="primary"> Date Uploaded</IonLabel> </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -119,18 +178,12 @@ class MusicInfo extends React.Component {
                           <td><IonLabel color="dark"> {music.title} </IonLabel> </td>
                           <td><IonLabel color="dark" className="ion-text-capitalize"> {music.type} </IonLabel> </td>
                           <td><IonLabel color="dark"> {music.user != null ? music.user.name : "N/A"} </IonLabel> </td>
-                          {/* <td><IonLabel color="dark"> {user.email_verified_at == null ? "No" : "Yes"} </IonLabel> </td>
-                          <td><IonLabel color="dark" className="ion-text-capitalize">  {user.type} </IonLabel> </td>
-                          <td> <IonLabel color="dark" className="ion-text-capitalize">
-                            <IonButton size="small" onClick={() => { this.setUserModalStatus(true); this.setState({ selectedUser: user }) }}>View</IonButton>
-                          </IonLabel>
-                          </td> */}
+                          <td><IonLabel color="dark">  {(new Date(music.updated_at)).toDateString()} </IonLabel> </td>
+                          <td><IonLabel color="dark">  {(new Date(music.created_at)).toDateString()} </IonLabel> </td>
                         </tr>
-
                       ))}
                     </tbody>
                   </table>
-
                 </IonCardContent>
               </IonCard>
             </IonCol>
