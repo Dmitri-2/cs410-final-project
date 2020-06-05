@@ -15,7 +15,7 @@ class ServerStats extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { latestCPUInfo: null, allCPUInfo: [], ramData: {}, uptime: {} };
+    this.state = { latestCPUInfo: null, allCPUInfo: [], allCPUInfoLabels: [], ramData: {}, uptime: {} };
   }
 
   componentDidMount() {
@@ -36,8 +36,7 @@ class ServerStats extends React.Component {
   }
 
   updateCpuChart() {
-    let time = new Date();
-    this.cpuChart.data.labels = [...this.cpuChart.data.labels, time.getMinutes() + ":" + time.getSeconds()];
+    this.cpuChart.data.labels = this.state.allCPUInfoLabels;
     this.cpuChart.data.datasets[0].data = this.state.allCPUInfo.map(info => info.min1);
     this.cpuChart.data.datasets[1].data = this.state.allCPUInfo.map(info => info.min5);
     this.cpuChart.data.datasets[2].data = this.state.allCPUInfo.map(info => info.min15);
@@ -54,7 +53,7 @@ class ServerStats extends React.Component {
     this.cpuChart = new Chart(cpuCtx, {
       type: 'line',
       data: {
-        labels: ["0:00"],
+        labels: [],
         datasets: [{
           label: '1-Min Avg',
           data: this.state.allCPUInfo.map(info => info.min1),
@@ -92,7 +91,7 @@ class ServerStats extends React.Component {
     this.ramChart = new Chart(ramCtx, {
       type: 'doughnut',
       data: {
-        labels: ["Used", "Free", "Buffer"],
+        labels: ["Used", "Free", "Buffered"],
         datasets: [{
           label: "RAM Useage",
           data: [Object.values(this.state.ramData)],
@@ -118,10 +117,13 @@ class ServerStats extends React.Component {
     await axios.get(this.props.apiRoot + `/api/stats/load`,
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
     ).then(result => {
+      let time = new Date();
       this.setState({ latestCPUInfo: result.data }) //Gets min1, min5, min15
       this.setState({ allCPUInfo: [...this.state.allCPUInfo, result.data] })
+      this.setState({ allCPUInfoLabels: [...this.cpuChart.data.labels, time.getMinutes() + ":" + time.getSeconds()] });
       if (this.state.allCPUInfo.length >= 50) {
         this.state.allCPUInfo.splice(0, 1);
+        this.state.allCPUInfoLabels.splice(0, 1);
       }
     })
     this.updateCpuChart();
