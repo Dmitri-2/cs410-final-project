@@ -1,5 +1,5 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton, IonLoading } from '@ionic/react';
+import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton, IonLoading, IonToast } from '@ionic/react';
 import { IonGrid, IonRow, IonCol, IonModal, IonList } from '@ionic/react';
 import axios from "axios";
 import Chart from 'chart.js';
@@ -14,7 +14,17 @@ class RinkInfo extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { allRinks: [], selectedRink: null, selectedRinkDetail: null, rinkModalOpen: false, rinkAdminModalOpen: false };
+    this.state = {
+      allRinks: [],
+      selectedRink: null,
+      selectedRinkDetail: null,
+      rinkModalOpen: false,
+      rinkAdminModalOpen: false,
+      showTopToast: false,
+      toastMessage: "A action has occurred.",
+      addingAdmin: false,
+      listOfUsers: []
+    };
   }
 
   componentDidMount() {
@@ -24,6 +34,11 @@ class RinkInfo extends React.Component {
 
   setRinkModalStatus(state) {
     this.setState({ rinkModalOpen: state });
+  }
+
+  makeToastWithMessage(open, message) {
+    this.setState({ showTopToast: open });
+    this.setState({ toastMessage: message });
   }
 
   setRinkAdminModalStatus(state) {
@@ -38,8 +53,16 @@ class RinkInfo extends React.Component {
     this.setState({ rinkAdminModalOpen: state });
   }
 
-  getAllRinks = async () => {
+  getAllUsers = async () => {
+    await axios.get(this.props.apiRoot + `/api/users/all`,
+      { headers: { Authorization: `Bearer ${this.props.authToken}` } }
+    ).then(result => {
+      console.log(result.data);
+      this.setState({ listOfUsers: result.data }) //Gets all the users from the API
+    })
+  }
 
+  getAllRinks = async () => {
     await axios.get(this.props.apiRoot + `/api/rinks/all`,
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
     ).then(result => {
@@ -63,6 +86,41 @@ class RinkInfo extends React.Component {
       console.log(result.data);
       this.setState({ selectedRinkDetail: result.data }) //Gets all the users from the API
     })
+  }
+
+  setAddingAdmin(state) {
+    this.setState({ addingAdmin: state });
+  }
+
+  setRinkAdmin = async (userId, rinkId) => {
+    return await axios.post(this.props.apiRoot + `/api/rinks/add-admin`,
+      {
+        "userId": userId,
+        "rinkId": rinkId
+      },
+      {
+        headers: { Authorization: `Bearer ${this.props.authToken}` }
+      })
+      .then(result => {
+        console.log(result);
+        this.getAllRinks();
+      })
+      .catch(error => { console.log(error); })
+  }
+
+  removeRinkAdmin = async (userId, rinkId) => {
+    return await axios.post(this.props.apiRoot + `/api/rinks/remove-admin`,
+      {
+        "userId": userId,
+        "rinkId": rinkId
+      },
+      {
+        headers: { Authorization: `Bearer ${this.props.authToken}` }
+      })
+      .then(result => {
+        this.getAllRinks();
+      })
+      .catch(error => { console.log(error); })
   }
 
   drawCharts() {
@@ -132,7 +190,18 @@ class RinkInfo extends React.Component {
               <IonTitle size="large">{this.props.name}</IonTitle>
             </IonToolbar>
           </IonHeader>
-
+          <IonRow className="ion-justify-content-center">
+            <IonCol size="6">
+              <IonToast
+                isOpen={this.state.showTopToast}
+                message={this.state.toastMessage}
+                position="top"
+                color="primary"
+                onDidDismiss={() => this.makeToastWithMessage(false, "Default message...")}
+                duration={1500}
+              />
+            </IonCol>
+          </IonRow>
           <IonRow>
             <IonCol sizeMd="6" sizeLg="3" size="12">
               <IonCard>
@@ -251,7 +320,10 @@ class RinkInfo extends React.Component {
           </IonCard>
 
 
-          <IonModal isOpen={this.state.rinkModalOpen} cssClass='my-custom-class'>
+          <IonModal
+            isOpen={this.state.rinkModalOpen}
+            onDidDismiss={() => this.setRinkModalStatus(false)}
+            cssClass='my-custom-class'>
             {this.state.selectedRink == null ? (
               <h2>
                 Oops! Please select a rink for this modal!
@@ -300,64 +372,99 @@ class RinkInfo extends React.Component {
           </IonModal >
 
           {/*The Admin Managing Modal */}
-          <IonModal isOpen={this.state.rinkAdminModalOpen} cssClass='my-custom-class'>
+          <IonModal
+            isOpen={this.state.rinkAdminModalOpen}
+            onDidDismiss={() => this.setRinkAdminModalStatus(false)}
+          >
             {this.state.selectedRinkDetail == null ? (
               <div>
                 <IonLoading
-                  cssClass='my-custom-class'
                   message={'Loading...'}
                 />
               </div>
             ) : (
                 <IonCard>
                   <IonCardHeader>
-                    <IonCardTitle className="ion-text-center"> <h2> {this.state.selectedRink.name} </h2></IonCardTitle>
+                    <IonCardTitle className="ion-text-center"> <h2> {this.state.selectedRinkDetail.name} </h2></IonCardTitle>
                     <IonCardSubtitle className="ion-text-center">Manage Administrators</IonCardSubtitle>
                   </IonCardHeader>
-                  <IonCardContent>
-                    <IonRow>
-                      <IonCol>
-                        {(this.state.selectedRinkDetail.members.filter(member => member.user != null && member.is_admin).length != 0) ? (
-                          <table>
-                            <thead>
-                              <tr>
-                                <th> <IonLabel color="primary"> Admin Name </IonLabel> </th>
-                                <th> <IonLabel color="primary"> Action </IonLabel> </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {this.state.selectedRinkDetail.members.filter(member => member.user != null && member.is_admin).map(member => (
-                                <tr key={member.id}>
-                                  <td><IonLabel color="dark"> {member.user.name} </IonLabel> </td>
-                                  <td> <IonButton size="small" color="danger" onClick={() => { }}>Remove</IonButton></td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        ) : (
-                            <div>
-                              <h2>No admins for this rink!</h2>
-                            </div>
-                          )
-                        }
-                      </IonCol>
-                    </IonRow>
-                    <IonRow className="ion-justify-content-center">
-                      <IonCol size="3">
-                        <IonLabel>
-                          <IonButton color="success"> Add Admin </IonButton>
-                        </IonLabel>
-                      </IonCol>
-                    </IonRow>
-                  </IonCardContent>
+                  {this.state.addingAdmin ? (
+                    <IonCardContent>
+                      <IonRow className="ion-justify-content-center">
+                        <IonCol size="12">
+                          <IonButton color="danger" onClick={() => this.setAddingAdmin(false)}>Cancel</IonButton>
+                        </IonCol>
+                      </IonRow>
+                      <IonRow>
+                        <IonCol size="12">
+                          <IonList>
+                            {this.state.listOfUsers.map(user => (
+                              <IonItem>
+                                <IonButton color="success" className="ion-margin-end" onClick={() => {
+                                  console.log(user);
+                                  this.setRinkAdmin(user.id, this.state.selectedRinkDetail.id);
+                                  this.makeToastWithMessage(true, `${user.name} has been set as a admin for ${this.state.selectedRinkDetail.name}`);
+                                  this.setRinkAdminModalStatus(false);
+                                  this.setAddingAdmin(false);
+                                }}>Add as Admin </IonButton>
+                                <IonLabel>{user.name} </IonLabel>
+                              </IonItem>
+                            ))}
+                          </IonList>
+                        </IonCol>
+                      </IonRow>
+                    </IonCardContent>
+                  ) : (
+                      <IonCardContent>
+                        <IonRow>
+                          <IonCol>
+                            {(this.state.selectedRinkDetail.members.filter(member => member.user != null && member.is_admin).length != 0) ? (
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th> <IonLabel color="primary"> Admin Name </IonLabel> </th>
+                                    <th> <IonLabel color="primary"> Action </IonLabel> </th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {console.log(this.state.selectedRinkDetail.members)}
+                                  {this.state.selectedRinkDetail.members.filter(member => member.user != null && member.is_admin).map(member => (
+                                    <tr key={member.id}>
+                                      <td><IonLabel color="dark"> {member.user.name} </IonLabel> </td>
+                                      <td> <IonButton size="small" color="danger" onClick={() => {
+                                        this.removeRinkAdmin(member.user.id, this.state.selectedRinkDetail.id);
+                                        this.setRinkAdminModalStatus(false);
+                                        this.makeToastWithMessage(true, `${member.user.name} has been removed as a admin from ${this.state.selectedRinkDetail.name}`);
+                                      }}>Remove</IonButton></td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            ) : (
+                                <div>
+                                  {console.log(this.state.selectedRinkDetail.members)}
+                                  <h2>No admins for this rink!</h2>
+                                </div>
+                              )
+                            }
+                          </IonCol>
+                        </IonRow>
+                        <IonRow className="ion-justify-content-center">
+                          <IonCol size="3">
+                            <IonLabel>
+                              <IonButton color="success" onClick={() => { this.getAllUsers(); this.setAddingAdmin(true) }}> Add Admin </IonButton>
+                            </IonLabel>
+                          </IonCol>
+                        </IonRow>
+                      </IonCardContent>
+                    )}
                 </IonCard >
               )
             }
             <IonButton onClick={() => this.setRinkAdminModalStatus(false)}>Close</IonButton>
           </IonModal >
-
-        </IonContent>
-      </IonPage>
+        </IonContent >
+      </IonPage >
     );
   }
 };
