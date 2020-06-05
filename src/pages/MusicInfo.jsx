@@ -1,10 +1,8 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton } from '@ionic/react';
+import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonLabel } from '@ionic/react';
 import { IonGrid, IonRow, IonCol } from '@ionic/react';
 import axios from "axios";
 import Chart from 'chart.js';
-
-import SampleCard from "../components/SampleCard"
 
 import React from 'react';
 import { useParams } from 'react-router';

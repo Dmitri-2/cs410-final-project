@@ -1,13 +1,10 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
-import { useParams } from 'react-router';
 import './Page.css';
 import { IonGrid, IonRow, IonCol } from '@ionic/react';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton, IonText, IonModal, IonList } from '@ionic/react';
 import axios from "axios";
 import Chart from 'chart.js';
-
-import SampleCard from "../components/SampleCard"
 
 
 class UserInfo extends React.Component {
@@ -19,10 +16,6 @@ class UserInfo extends React.Component {
 
   componentDidMount() {
     this.getAllUsers();
-    // this.getServerLoad();
-    // this.timer5sec = setInterval(() => this.makeApiCalls(), 3000);
-    // this.drawChart();
-    // this.getUptime();
     var ctx = document.getElementById('userEmailChart').getContext('2d');
     this.emailChart = new Chart(ctx, {
       type: 'doughnut',
@@ -91,7 +84,6 @@ class UserInfo extends React.Component {
       console.log(result.data);
       this.setState({ allUsers: result.data }) //Gets all the users from the API
     })
-    // this.updateCpuChart();
     this.updateChartWithUserEmailVerifiedDataSet();
     this.updateUserTypeChart();
   }

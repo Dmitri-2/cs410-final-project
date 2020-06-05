@@ -1,13 +1,10 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton, IonLoading, IonToast } from '@ionic/react';
-import { IonGrid, IonRow, IonCol, IonModal, IonList } from '@ionic/react';
+import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonLabel, IonButton, IonLoading, IonToast } from '@ionic/react';
+import { IonRow, IonCol, IonModal, IonList } from '@ionic/react';
 import axios from "axios";
 import Chart from 'chart.js';
 
-import SampleCard from "../components/SampleCard"
-
 import React from 'react';
-import { useParams } from 'react-router';
 import './Page.css';
 
 class RinkInfo extends React.Component {
@@ -198,7 +195,7 @@ class RinkInfo extends React.Component {
                 position="top"
                 color="primary"
                 onDidDismiss={() => this.makeToastWithMessage(false, "Default message...")}
-                duration={1500}
+                duration={3500}
               />
             </IonCol>
           </IonRow>

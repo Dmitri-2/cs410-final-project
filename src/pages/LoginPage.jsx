@@ -1,6 +1,6 @@
 import {
-  IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonInput, IonItem,
-  IonItemDivider, IonCard, IonCardContent, IonCardHeader, IonLabel, IonButton, IonAlert
+  IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonInput, IonItem,
+  IonCard, IonCardContent, IonCardHeader, IonLabel, IonButton, IonAlert
 } from '@ionic/react';
 import { IonGrid, IonRow, IonCol } from '@ionic/react';
 import React from 'react';
@@ -18,13 +18,10 @@ class LoginPage extends React.Component {
   }
 
   attemptToLogUserIn = async () => {
-    // (async () => { })();
-    // console.log(await this.props.logIn(this.state.email, this.state.password));
-    // return;
+    //Try to log the user in - using function from App.js
     let result = await this.props.logIn(this.state.email, this.state.password);
-    // Storage.set('name', 'Max');
 
-    console.log(result);
+    //If we fail - alert the user 
     if (result === false) {
       this.setShowLoginFailedAlert(true);
     }
@@ -40,8 +37,6 @@ class LoginPage extends React.Component {
         </IonHeader>
         <IonContent>
           <IonRow className="ion-justify-content-center">
-            {/* <IonCol className="ion-align-self-start">ion-col start</IonCol> */}
-
             <IonCol className="ion-align-self-center ion-text-center ion-margin-top" size-sm="auto" size-md="4" size-sm >
               <IonCard>
                 <IonCardHeader>
@@ -71,9 +66,7 @@ class LoginPage extends React.Component {
                 </IonCardContent>
               </IonCard>
             </IonCol>
-            {/* <IonCol className="ion-align-self-end">ion-col end</IonCol> */}
           </IonRow>
-
         </IonContent>
       </IonPage >
     );

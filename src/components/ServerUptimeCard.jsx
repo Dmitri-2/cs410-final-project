@@ -1,8 +1,6 @@
 
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar, IonText } from '@ionic/react';
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton } from '@ionic/react';
+import { IonCard, IonCardHeader, IonText } from '@ionic/react';
 import React from 'react';
-import Chart from 'chart.js';
 import Timer from 'react-compound-timer';
 
 class ServerUptimeCard extends React.Component {

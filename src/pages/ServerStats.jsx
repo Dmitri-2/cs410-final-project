@@ -1,7 +1,6 @@
 import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonItem, IonIcon, IonLabel, IonButton, IonText } from '@ionic/react';
+import { IonCard, IonCardHeader, IonCardTitle, IonText } from '@ionic/react';
 import React from 'react';
-import { useParams } from 'react-router';
 import './Page.css';
 import { IonGrid, IonRow, IonCol } from '@ionic/react';
 import axios from "axios";

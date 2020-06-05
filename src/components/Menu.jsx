@@ -9,14 +9,13 @@ import {
   IonMenuToggle,
   IonNote,
   IonItemDivider,
-  IonTitle,
-  IonRow
 } from '@ionic/react';
 
 import React from 'react';
-import { withRouter } from "react-router";
-import PropTypes from "prop-types";
-import { informationCircleOutline, statsChartOutline, musicalNotesOutline, archiveOutline, archiveSharp, bookmarkOutline, heartOutline, heartSharp, analyticsOutline, mailSharp, paperPlaneOutline, peopleOutline, trashOutline, trashSharp, warningOutline, warningSharp, snowOutline } from 'ionicons/icons';
+import {
+  informationCircleOutline, statsChartOutline, musicalNotesOutline,
+  analyticsOutline, peopleOutline
+} from 'ionicons/icons';
 import './Menu.css';
 
 
@@ -53,8 +52,6 @@ const appPages = [
   }
 ];
 
-const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-
 class Menu extends React.Component {
 
   constructor(props) {
@@ -62,7 +59,6 @@ class Menu extends React.Component {
   }
 
   render = () => {
-    // const location = useLocation();
     const location = this.props.location;
 
     return (
@@ -72,8 +68,6 @@ class Menu extends React.Component {
             <IonListHeader>MusicQ Monitoring Dashboard</IonListHeader>
             <IonNote>For moitoring user and server activity.</IonNote>
             <IonItemDivider />
-            {/* <IonListHeader>Labels</IonListHeader> */}
-            {/* <IonTitle className="ion-margin-top">Welcome {this.props.user.name}</IonTitle> */}
             <h3 className="ion-margin-top" style={{ marginLeft: "10px" }}>Welcome {this.props.user.name}</h3>
             <IonNote>{this.props.user.email}</IonNote>
             <IonItemDivider className="ion-margin-bottom" />
@@ -88,16 +82,6 @@ class Menu extends React.Component {
               );
             })}
           </IonList>
-
-          {/* <IonList id="labels-list">
-            <IonListHeader>Labels</IonListHeader>
-            {labels.map((label, index) => (
-              <IonItem lines="none" key={index}>
-                <IonIcon slot="start" icon={bookmarkOutline} />
-                <IonLabel>{label}</IonLabel>
-              </IonItem>
-            ))}
-          </IonList> */}
         </IonContent>
       </IonMenu >
     );

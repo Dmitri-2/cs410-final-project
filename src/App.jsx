@@ -1,5 +1,4 @@
 import Menu from './components/Menu.jsx';
-import Page from './pages/Page';
 import RinkInfo from './pages/RinkInfo.jsx';
 import ServerStats from './pages/ServerStats.jsx';
 import UserInfo from './pages/UserInfo.jsx';
@@ -49,9 +48,6 @@ class App extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-  }
-
 
   async storeItem(itemKey, itemValue) {
     await this.storage.set({
@@ -97,6 +93,7 @@ class App extends React.Component {
   }
 
   render = () => {
+    // Check if the user is logged in - if not - show LogIn screen
     if (this.state.user === null) {
       return (
         <LoginPage logIn={this.authenticateUser} />
