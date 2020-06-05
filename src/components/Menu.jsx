@@ -9,13 +9,14 @@ import {
   IonMenuToggle,
   IonNote,
   IonItemDivider,
-  IonTitle
+  IonTitle,
+  IonRow
 } from '@ionic/react';
 
 import React from 'react';
 import { withRouter } from "react-router";
 import PropTypes from "prop-types";
-import { informationCircleOutline, statsChartOutline, musicalNotesOutline, archiveOutline, archiveSharp, bookmarkOutline, heartOutline, heartSharp, analyticsOutline, mailSharp, paperPlaneOutline, peopleOutline, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { informationCircleOutline, statsChartOutline, musicalNotesOutline, archiveOutline, archiveSharp, bookmarkOutline, heartOutline, heartSharp, analyticsOutline, mailSharp, paperPlaneOutline, peopleOutline, trashOutline, trashSharp, warningOutline, warningSharp, snowOutline } from 'ionicons/icons';
 import './Menu.css';
 
 
