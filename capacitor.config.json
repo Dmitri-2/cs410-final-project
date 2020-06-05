@@ -1,0 +1,13 @@
+{
+  "appId": "com.cs410.musicq.dashboard",
+  "appName": "cs410-front-end-dashboard",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {}
+}

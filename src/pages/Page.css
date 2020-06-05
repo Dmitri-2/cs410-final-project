@@ -18,3 +18,7 @@ table td {
 h1.font-50 {
     font-size: 50px;
 }
+
+ion-card {
+    overflow: scroll;
+}

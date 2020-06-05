@@ -85,7 +85,6 @@ class UserInfo extends React.Component {
   }
 
   getAllUsers = async () => {
-
     await axios.get(this.props.apiRoot + `/api/users/all`,
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
     ).then(result => {
