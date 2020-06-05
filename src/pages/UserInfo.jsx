@@ -121,6 +121,60 @@ class UserInfo extends React.Component {
             </IonToolbar>
           </IonHeader>
           <IonRow>
+            <IonCol sizeMd="6" sizeLg="3" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2>Total Users</h2></IonCardTitle>
+                  <IonCardSubtitle className="ion-text-center"> Total Number of Users Registered </IonCardSubtitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonTitle className="ion-text-center">
+                    <h1 className="font-50"> {this.state.allUsers.length} </h1>
+                  </IonTitle>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol sizeMd="6" sizeLg="3" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2> Unlimited Users</h2></IonCardTitle>
+                  <IonCardSubtitle className="ion-text-center"> Users w/ Unlimited Subscriptions</IonCardSubtitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonTitle className="ion-text-center">
+                    <h1 className="font-50"> {this.state.allUsers.map(user => user.subscription.has_unlimited_plays ? 1 : 0).reduce((r, v) => r + v, 0)} </h1>
+                  </IonTitle>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol sizeMd="6" sizeLg="3" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2>Play Credits </h2></IonCardTitle>
+                  <IonCardSubtitle className="ion-text-center"> Total Credits Across All Users</IonCardSubtitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonTitle className="ion-text-center">
+                    <h1 className="font-50"> {this.state.allUsers.map(user => user.subscription.play_credits).reduce((r, v) => r + v, 0)} </h1>
+                  </IonTitle>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+            <IonCol sizeMd="6" sizeLg="3" size="12">
+              <IonCard>
+                <IonCardHeader>
+                  <IonCardTitle className="ion-text-center"> <h2>Total Sub-Users</h2></IonCardTitle>
+                  <IonCardSubtitle className="ion-text-center"> Profiles Under a User Account</IonCardSubtitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonTitle className="ion-text-center">
+                    <h1 className="font-50"> {this.state.allUsers.map(user => user.sub_users.length).reduce((r, v) => r + v, 0)} </h1>
+                  </IonTitle>
+                </IonCardContent>
+              </IonCard>
+            </IonCol>
+          </IonRow>
+          <IonRow>
             <IonCol sizeMd="6" size="12">
               <IonCard>
                 <IonCardHeader>
@@ -160,6 +214,8 @@ class UserInfo extends React.Component {
                         <th> <IonLabel color="primary"> Email </IonLabel> </th>
                         <th> <IonLabel color="primary"> Email Verified</IonLabel> </th>
                         <th> <IonLabel color="primary"> Type </IonLabel> </th>
+                        <th> <IonLabel color="primary"> Credits </IonLabel> </th>
+                        <th> <IonLabel color="primary"> Sub-Users </IonLabel> </th>
                         <th> <IonLabel color="primary"> View </IonLabel> </th>
                       </tr>
                     </thead>
@@ -171,6 +227,8 @@ class UserInfo extends React.Component {
                           <td><IonLabel color="dark"> {user.email} </IonLabel> </td>
                           <td><IonLabel color="dark"> {user.email_verified_at == null ? "No" : "Yes"} </IonLabel> </td>
                           <td><IonLabel color="dark" className="ion-text-capitalize">  {user.type} </IonLabel> </td>
+                          <td><IonLabel color="dark" className="ion-text-capitalize">  {user.subscription.has_unlimited_plays ? "Unlimited" : user.subscription.play_credits + " credits"} </IonLabel> </td>
+                          <td><IonLabel color="dark" className="ion-text-capitalize">  {user.sub_users.length} </IonLabel> </td>
                           <td> <IonLabel color="dark" className="ion-text-capitalize">
                             <IonButton size="small" onClick={() => { this.setUserModalStatus(true); this.setState({ selectedUser: user }) }}>View</IonButton>
                           </IonLabel>
