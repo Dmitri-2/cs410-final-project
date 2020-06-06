@@ -64,6 +64,7 @@ class UserInfo extends React.Component {
     });
   }
 
+  // Function to update the user email chart 
   updateChartWithUserEmailVerifiedDataSet() {
     let notVerified = this.state.allUsers.filter(user => user.email_verified_at === null).length;
     let verified = this.state.allUsers.length - notVerified;
@@ -71,6 +72,7 @@ class UserInfo extends React.Component {
     this.emailChart.update();
   }
 
+  // Function to update the user type chart
   updateUserTypeChart() {
     let regular = this.state.allUsers.filter(user => user.type === "regular").length;
     let coach = this.state.allUsers.filter(user => user.type === "coach").length;

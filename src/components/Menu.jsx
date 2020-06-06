@@ -18,7 +18,7 @@ import {
 } from 'ionicons/icons';
 import './Menu.css';
 
-
+// List of all the pages in the application 
 const appPages = [
   {
     title: 'Server Overview',
