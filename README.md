@@ -15,6 +15,8 @@ This is my final project (a Dashboard Application) for CS410P Web Development.
 - Axios
 - ChartJS
 
+The documentation for each of these libraries was very helpful, with code samples providing clear ways to use components. 
+
 
 ### Backend 
 

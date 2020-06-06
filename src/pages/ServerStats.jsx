@@ -36,14 +36,14 @@ class ServerStats extends React.Component {
 
   updateCpuChart() {
     this.cpuChart.data.labels = this.state.allCPUInfoLabels;
-    this.cpuChart.data.datasets[0].data = this.state.allCPUInfo.map(info => info.min1);
-    this.cpuChart.data.datasets[1].data = this.state.allCPUInfo.map(info => info.min5);
-    this.cpuChart.data.datasets[2].data = this.state.allCPUInfo.map(info => info.min15);
+    this.cpuChart.data.datasets[0].data = this.state.allCPUInfo.map(info => (Number(info.min1) * 100.0).toFixed(2));
+    this.cpuChart.data.datasets[1].data = this.state.allCPUInfo.map(info => (Number(info.min5) * 100.0).toFixed(2));
+    this.cpuChart.data.datasets[2].data = this.state.allCPUInfo.map(info => (Number(info.min15) * 100.0).toFixed(2));
     this.cpuChart.update();
   }
 
   updateRamChart() {
-    this.ramChart.data.datasets[0].data = Object.values(this.state.ramData);
+    this.ramChart.data.datasets[0].data = Object.values(this.state.ramData).map(value => (value.toFixed(2)));
     this.ramChart.update();
   }
 
@@ -117,6 +117,7 @@ class ServerStats extends React.Component {
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
     ).then(result => {
       let time = new Date();
+      console.log(result.data);
       this.setState({ latestCPUInfo: result.data }) //Gets min1, min5, min15
       this.setState({ allCPUInfo: [...this.state.allCPUInfo, result.data] })
       this.setState({ allCPUInfoLabels: [...this.cpuChart.data.labels, time.getMinutes() + ":" + time.getSeconds()] });
@@ -169,19 +170,19 @@ class ServerStats extends React.Component {
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle className="ion-text-center">1-Minute Load Average</IonCardTitle>
-                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? (Number(this.state.latestCPUInfo.min1) * 100.0).toFixed(3) + "%" : "N/A"}</h1></IonTitle>
+                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? (Number(this.state.latestCPUInfo.min1) * 100.0).toFixed(1) + "%" : "N/A"}</h1></IonTitle>
               </IonCardHeader>
             </IonCard>
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle className="ion-text-center">5-Minute Load Average</IonCardTitle>
-                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? (Number(this.state.latestCPUInfo.min5) * 100.0).toFixed(3) + "%" : "N/A"}</h1></IonTitle>
+                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? (Number(this.state.latestCPUInfo.min5) * 100.0).toFixed(1) + "%" : "N/A"}</h1></IonTitle>
               </IonCardHeader>
             </IonCard>
             <IonCard>
               <IonCardHeader>
                 <IonCardTitle className="ion-text-center">15-Minute Load Average</IonCardTitle>
-                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? (Number(this.state.latestCPUInfo.min15) * 100.0).toFixed(3) + "%" : "N/A"}</h1></IonTitle>
+                <IonTitle className="ion-text-center"> <h1>{this.state.latestCPUInfo ? (Number(this.state.latestCPUInfo.min15) * 100.0).toFixed(1) + "%" : "N/A"}</h1></IonTitle>
               </IonCardHeader>
             </IonCard>
           </IonRow>
