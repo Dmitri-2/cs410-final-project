@@ -68,6 +68,7 @@ class App extends React.Component {
     })
   }
 
+  // Function to query authentication API and get the auth token 
   authenticateUser = async (email, password) => {
     return await axios.post(this.state.apiRoot + `/api/authenticate`,
       {
@@ -96,7 +97,9 @@ class App extends React.Component {
     // Check if the user is logged in - if not - show LogIn screen
     if (this.state.user === null) {
       return (
-        <LoginPage logIn={this.authenticateUser} />
+        <div>
+          <LoginPage logIn={this.authenticateUser} />
+        </div>
       );
     } else {
       return (
