@@ -15,7 +15,10 @@ class UserInfo extends React.Component {
   }
 
   componentDidMount() {
+    // When we render - get all the users 
     this.getAllUsers();
+
+    //Create the ChartJs graphs 
     var ctx = document.getElementById('userEmailChart').getContext('2d');
     this.emailChart = new Chart(ctx, {
       type: 'doughnut',
@@ -59,7 +62,6 @@ class UserInfo extends React.Component {
         }]
       }
     });
-
   }
 
   updateChartWithUserEmailVerifiedDataSet() {
@@ -77,12 +79,12 @@ class UserInfo extends React.Component {
     this.typeChart.update();
   }
 
+  // Function to get all users from the API 
   getAllUsers = async () => {
     await axios.get(this.props.apiRoot + `/api/users/all`,
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
     ).then(result => {
-      console.log(result.data);
-      this.setState({ allUsers: result.data }) //Gets all the users from the API
+      this.setState({ allUsers: result.data }) // Store all users in state 
     })
     this.updateChartWithUserEmailVerifiedDataSet();
     this.updateUserTypeChart();

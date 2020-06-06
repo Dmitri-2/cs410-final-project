@@ -6,6 +6,9 @@ import { IonGrid, IonRow, IonCol } from '@ionic/react';
 import React from 'react';
 import './Page.css';
 
+// Class Component for the Login Page 
+// We take the login function from App.js, but this component handles the display 
+// of the page and interaction with the user. 
 class LoginPage extends React.Component {
 
   constructor(props) {
@@ -17,6 +20,7 @@ class LoginPage extends React.Component {
     this.setState({ failedAlert: state })
   }
 
+  // Function to try to log the user in 
   attemptToLogUserIn = async () => {
     //Try to log the user in - using function from App.js
     let result = await this.props.logIn(this.state.email, this.state.password);
@@ -57,7 +61,7 @@ class LoginPage extends React.Component {
                     isOpen={this.state.failedAlert}
                     onDidDismiss={() => this.setShowLoginFailedAlert(false)}
                     cssClass='ion-text-center'
-                    header={'Incorrect Email or Password'}
+                    header={'Login Error'}
                     subHeader={''}
                     message={'<div class="ion-text-center"> Incorrect Email or Password </div>'}
                     buttons={['Try Again']}

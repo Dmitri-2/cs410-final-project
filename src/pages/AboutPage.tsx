@@ -5,7 +5,10 @@ import './Page.css';
 import { IonRow, IonCol } from '@ionic/react';
 import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent } from '@ionic/react';
 
-
+// Functional Component for the About Page
+// Is pretty much only a static display of data
+// Has no funcitons and or data associated with it 
+//
 const AboutPage: React.FC = () => {
 
   const { name } = useParams<{ name: string; }>();
@@ -20,7 +23,6 @@ const AboutPage: React.FC = () => {
           <IonTitle class="ion-text-center" > About This Dashboard </IonTitle>
         </IonToolbar>
       </IonHeader>
-
       <IonContent>
         <IonHeader collapse="condense">
           <IonToolbar>

@@ -29,15 +29,19 @@ class RinkInfo extends React.Component {
     this.drawCharts();
   }
 
+  // Function for setting the view rink info modal status 
   setRinkModalStatus(state) {
     this.setState({ rinkModalOpen: state });
   }
 
+  // Function to display the alert at the top of the page
+  // Can also be used to close the alert, by passing false in the "open" variable 
   makeToastWithMessage(open, message) {
     this.setState({ showTopToast: open });
     this.setState({ toastMessage: message });
   }
 
+  // Function for opening/closing the modal to manage rink admins
   setRinkAdminModalStatus(state) {
     if (state == true) {
       //If modal is being opened - get the data 
@@ -50,20 +54,20 @@ class RinkInfo extends React.Component {
     this.setState({ rinkAdminModalOpen: state });
   }
 
+  // Function to get all the users from the API 
   getAllUsers = async () => {
     await axios.get(this.props.apiRoot + `/api/users/all`,
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
     ).then(result => {
-      console.log(result.data);
       this.setState({ listOfUsers: result.data }) //Gets all the users from the API
     })
   }
 
+  // Function to get all rinks from the API 
   getAllRinks = async () => {
     await axios.get(this.props.apiRoot + `/api/rinks/all`,
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
     ).then(result => {
-      console.log(result.data);
       this.setState({ allRinks: result.data }) //Gets all the users from the API
     })
     this.membersChart.data.labels = this.state.allRinks.map((rink) => rink.name);
@@ -75,20 +79,22 @@ class RinkInfo extends React.Component {
     this.rinkMusicChart.update();
   }
 
+  // Function to get admins for a specific rink from the API 
   getSelectedRinkAdmins = async () => {
     if (this.state.selectedRink == null) return;
     await axios.get(this.props.apiRoot + `/api/rinks/` + this.state.selectedRink.id + `/detail`,
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
     ).then(result => {
-      console.log(result.data);
       this.setState({ selectedRinkDetail: result.data }) //Gets all the users from the API
     })
   }
 
+  // Function to set the variable on displaying the admin panel 
   setAddingAdmin(state) {
     this.setState({ addingAdmin: state });
   }
 
+  // Funciton to set a user (userId) as a admin for a specific rink (rinkId)
   setRinkAdmin = async (userId, rinkId) => {
     return await axios.post(this.props.apiRoot + `/api/rinks/add-admin`,
       {
@@ -99,12 +105,12 @@ class RinkInfo extends React.Component {
         headers: { Authorization: `Bearer ${this.props.authToken}` }
       })
       .then(result => {
-        console.log(result);
         this.getAllRinks();
       })
       .catch(error => { console.log(error); })
   }
 
+  // Funciton to remove a user (userId) as a admin for a specific rink (rinkId)
   removeRinkAdmin = async (userId, rinkId) => {
     return await axios.post(this.props.apiRoot + `/api/rinks/remove-admin`,
       {
@@ -120,6 +126,7 @@ class RinkInfo extends React.Component {
       .catch(error => { console.log(error); })
   }
 
+  // Function to initially draw the ChartJs charts
   drawCharts() {
     var ctx = document.getElementById('rinkMembersChart').getContext('2d');
     this.membersChart = new Chart(ctx, {
@@ -180,7 +187,6 @@ class RinkInfo extends React.Component {
             <IonTitle class="ion-text-center" >Rink Information and Statistics</IonTitle>
           </IonToolbar>
         </IonHeader>
-
         <IonContent>
           <IonHeader collapse="condense">
             <IonToolbar>
@@ -199,6 +205,8 @@ class RinkInfo extends React.Component {
               />
             </IonCol>
           </IonRow>
+
+          {/* Section for the cards displaying prominent statistics */}
           <IonRow>
             <IonCol sizeMd="6" sizeLg="3" size="12">
               <IonCard>
@@ -254,6 +262,8 @@ class RinkInfo extends React.Component {
             </IonCol>
           </IonRow>
 
+          {/* Graph Section  */}
+
           <IonRow>
             <IonCol sizeMd="6" size="12">
               <IonCard>
@@ -276,6 +286,8 @@ class RinkInfo extends React.Component {
               </IonCard>
             </IonCol>
           </IonRow>
+
+          {/* Rink List Section  */}
 
           <IonCard>
             <IonCardHeader>
@@ -316,6 +328,7 @@ class RinkInfo extends React.Component {
             </IonCardContent>
           </IonCard>
 
+          {/* Modal for viewing rink details  */}
 
           <IonModal
             isOpen={this.state.rinkModalOpen}
@@ -369,6 +382,7 @@ class RinkInfo extends React.Component {
           </IonModal >
 
           {/*The Admin Managing Modal */}
+
           <IonModal
             isOpen={this.state.rinkAdminModalOpen}
             onDidDismiss={() => this.setRinkAdminModalStatus(false)}

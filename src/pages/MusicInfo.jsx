@@ -20,15 +20,14 @@ class MusicInfo extends React.Component {
     this.drawChart();
   }
 
+  // Function to retrieve all rinks from API
   getAllRinks = async () => {
-
     await axios.get(this.props.apiRoot + `/api/music/all`,
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
     ).then(result => {
-      console.log(result.data);
-      this.setState({ allMusic: result.data }) //Gets all the users from the API
+      this.setState({ allMusic: result.data }) //Gets all the rinks from the API
     })
-    // this.membersChart.data.labels = this.state.allRinks.map((rink) => rink.name);
+    // Update the music charts 
     this.musicChart.data.datasets[0].data = [this.state.allMusic.filter((music) => music.type === "long").length,
     this.state.allMusic.filter((music) => music.type === "short").length,
     this.state.allMusic.filter((music) => music.type === "dance").length];
@@ -80,6 +79,9 @@ class MusicInfo extends React.Component {
               <IonTitle size="large">{this.props.name}</IonTitle>
             </IonToolbar>
           </IonHeader>
+
+          {/* Section for the cards displaying prominent statistics */}
+
           <IonRow>
             <IonCol sizeMd="6" sizeLg="3" size="12">
               <IonCard>
@@ -135,6 +137,8 @@ class MusicInfo extends React.Component {
             </IonCol>
           </IonRow>
 
+          {/* Graph Section  */}
+
           <IonRow>
             <IonCol>
               <IonCard>
@@ -151,6 +155,9 @@ class MusicInfo extends React.Component {
               </IonCard>
             </IonCol>
           </IonRow>
+
+          {/* Music List Section  */}
+
           <IonRow className="ion-justify-content-center">
             <IonCol size="12">
               <IonCard>

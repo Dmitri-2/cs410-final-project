@@ -34,6 +34,7 @@ class ServerStats extends React.Component {
     this.getRamLoad();
   }
 
+  // Functiont to update the CPU and RAM statistics on the charts 
   updateCpuChart() {
     this.cpuChart.data.labels = this.state.allCPUInfoLabels;
     this.cpuChart.data.datasets[0].data = this.state.allCPUInfo.map(info => (Number(info.min1) * 100.0).toFixed(2));
@@ -111,6 +112,7 @@ class ServerStats extends React.Component {
 
   }
 
+  // Function to get server load from the API
   getServerLoad = async () => {
 
     await axios.get(this.props.apiRoot + `/api/stats/load`,
@@ -129,6 +131,7 @@ class ServerStats extends React.Component {
     this.updateCpuChart();
   }
 
+  // Function to get RAM usage from the API
   getRamLoad = async () => {
     await axios.get(this.props.apiRoot + `/api/stats/memory`,
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
@@ -138,7 +141,7 @@ class ServerStats extends React.Component {
     this.updateRamChart();
   }
 
-
+  // Function to get the server's uptime from the API
   getUptime = async () => {
     await axios.get(this.props.apiRoot + `/api/stats/uptime`,
       { headers: { Authorization: `Bearer ${this.props.authToken}` } }
@@ -158,6 +161,8 @@ class ServerStats extends React.Component {
             <IonTitle class="ion-text-center">Server Overview</IonTitle>
           </IonToolbar>
         </IonHeader>
+
+        {/* Section for the server load cards statistics */}
 
         <IonContent>
           <IonHeader collapse="condense">
@@ -186,6 +191,9 @@ class ServerStats extends React.Component {
               </IonCardHeader>
             </IonCard>
           </IonRow>
+
+          {/* Section for graphs of load and ram useage */}
+
           <IonRow>
             <IonCol sizeMd="6" size="12">
               <IonCard>

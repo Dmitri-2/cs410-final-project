@@ -17,9 +17,14 @@ This is my final project (a Dashboard Application) for CS410P Web Development.
 
 The documentation for each of these libraries was very helpful, with code samples providing clear ways to use components. 
 
-
 ### Backend 
 
 The back-end for this project is somewhat hidden, as I am thinking of developing it into a proprietary app. 
 In addition to this, it has been under development for the past two years (a off-and-on side project), and might require some refactoring 
 to get API keys (and other sensitive information) out of program files. 
+
+### Authentication 
+
+Authentication is done using Laravel Sanctum (https://laravel.com/docs/7.x/sanctum). 
+This allows us to issue authentication tokens to users. These tokens are then stored locally and used as Bearer tokens 
+to authenticate all API requests from the dashboard. 
