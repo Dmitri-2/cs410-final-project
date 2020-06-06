@@ -56,6 +56,7 @@ class LoginPage extends React.Component {
                       <IonLabel position="stacked">Password</IonLabel>
                       <IonInput type="password" placeholder="Enter your password" value={this.state.password} onIonChange={e => this.setState({ password: e.detail.value })}></IonInput>
                     </IonItem>
+                    <IonButton className="ion-margin-top" expand="block" onClick={() => this.attemptToLogUserIn()}> Log-In </IonButton>
                   </form>
                   <IonAlert
                     isOpen={this.state.failedAlert}
@@ -66,7 +67,6 @@ class LoginPage extends React.Component {
                     message={'<div class="ion-text-center"> Incorrect Email or Password </div>'}
                     buttons={['Try Again']}
                   />
-                  <IonButton className="ion-margin-top" expand="block" onClick={() => this.attemptToLogUserIn()}> Log-In </IonButton>
                 </IonCardContent>
               </IonCard>
             </IonCol>
